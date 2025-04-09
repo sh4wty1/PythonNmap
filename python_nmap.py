@@ -1,263 +1,49 @@
-import socket 
+import socket
 from colored import fg
 
-main = fg('blue')
-open = fg('green')
-closed = fg('red')
+# Cores
+main = fg("blue")
+open_color = fg("green")
+closed_color = fg("red")
 
-print(main + "  ____        _   _                   _   _                       ")
-print(main + " |  _ \ _   _| |_| |__   ___  _ __   | \ | |_ __ ___   __ _ _ __  ")
-print(main + " | |_) | | | | __| '_ \ / _ \| '_ \  |  \| | '_ ` _ \ / _` | '_ \ ")
-print(main + " |  __/| |_| | |_| | | | (_) | | | | | |\  | | | | | | (_| | |_) |")
-print(main + " |_|    \__, |\__|_| |_|\___/|_| |_| |_| \_|_| |_| |_|\__,_| .__/ ")
-print(main + "        |___/                                              |_|    ")
-print("")
-print(main + "Coded by shawty1 (github.com/sh4wty1)")
-print("")
+# ASCII Art
+print(
+    main
+    + r"""  
+  ____        _   _                   _   _                       
+ |  _ \ _   _| |_| |__   ___  _ __   | \ | |_ __ ___   __ _ _ __  
+ | |_) | | | | __| '_ \ / _ \| '_ \  |  \| | '_ ` _ \ / _` | '_ \ 
+ |  __/| |_| | |_| | | | (_) | | | | | |\  | | | | | | (_| | |_) |
+ |_|    \__, |\__|_| |_|\___/|_| |_| |_| \_|_| |_| |_|\__,_| .__/ 
+        |___/                                              |_|    
+"""
+)
 
-target = input('URL or IP: ')
-print("Timeout is the response time of the website or url port, so the longer the timeout is, more accurate the result will be.")
-print("Larger timeouts may take longer.")
-timeout = float(input('Set timeout(0.1, 0.2, 0.3...) => '))
-ports = [7
-,9
-,13
-,21
-,23
-,25
-,26
-,37
-,53
-,79
-,80
-,81
-,88
-,106
-,110
-,111
-,113
-,119
-,135
-,139
-,143
-,144
-,179
-,199
-,389
-,427
-,443
-,444
-,445
-,465
-,513
-,514
-,515
-,543
-,544
-,548
-,554
-,587
-,631
-,646
-,873
-,990
-,993
-,995
-,1025
-,1026
-,1027
-,1028
-,1029
-,1110
-,1433
-,1720
-,1723
-,1755
-,1900
-,2000
-,2001
-,2049
-,2121
-,2717
-,3000
-,3001
-,3002
-,3003
-,3004
-,3005
-,3006
-,3007
-,3008
-,3009
-,3010
-,3011
-,3012
-,3013
-,3014
-,3015
-,3016
-,3017
-,3018
-,3019
-,3020
-,3021
-,3022
-,3023
-,3024
-,3025
-,3026
-,3027
-,3028
-,3029
-,3030
-,3031
-,3032
-,3033
-,3034
-,3035
-,3036
-,3037
-,3038
-,3039
-,3040
-,3041
-,3042
-,3043
-,3044
-,3045
-,3046
-,3047
-,3048
-,3049
-,3050
-,3051
-,3052
-,3053
-,3054
-,3055
-,3056
-,3057
-,3058
-,3059
-,3060
-,3061
-,3062
-,3063
-,3064
-,3065
-,3066
-,3067
-,3068
-,3069
-,3070
-,3071
-,3072
-,3073
-,3074
-,3075
-,3076
-,3077
-,3078
-,3079
-,3080
-,3081
-,3082
-,3083
-,3084
-,3085
-,3086
-,3087
-,3088
-,3089
-,3090
-,3091
-,3092
-,3093
-,3094
-,3095
-,3096
-,3097
-,3098
-,3099
-,3100
-,3101
-,3102
-,3103
-,3104
-,3105
-,3106
-,3107
-,3108
-,3109
-,3110
-,3111
-,3112
-,3113
-,3114
-,3115
-,3116
-,3117
-,3118
-,3119
-,3120
-,3121
-,3122
-,3123
-,3124
-,3125
-,3126
-,3127
-,3128
-,3306
-,3389
-,3986
-,4899
-,5000
-,5009
-,5051
-,5060
-,5101
-,5190
-,5357
-,5432
-,5631
-,5666
-,5800
-,5900
-,6000
-,6001
-,6646
-,7070
-,8000
-,8001
-,8002
-,8003
-,8004
-,8005
-,8006
-,8007
-,8008
-,8080
-,8081
-,8443
-,8888
-,9100
-,9999
-,10000
-,32768
-,49152
-,49153
-,49154
-,49155
-,49156
-,49157]
+print(main + "Coded by shawty1 (github.com/sh4wty1)\n")
+
+# Entrada do usuário
+target = input("URL or IP: ")
+print(
+    "\nTimeout é o tempo de resposta da URL/IP. Quanto maior, mais preciso (mas mais demorado)."
+)
+timeout = float(input("Set timeout (ex: 0.1, 0.2...) => "))
+
+# Lê as portas do arquivo txt
+with open("ports.txt", "r") as file:
+    ports = [int(line.strip()) for line in file if line.strip().isdigit()]
+
+# Scan
 for port in ports:
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.settimeout(timeout)
-    code = client.connect_ex((target, port))
-    if code == 0:
-        print(open + "#######")
-        print(open + "OPEN", port)
-        print(open + "#######")
-    if code != 0:
-        print(closed + "CLOSED", port)
+    try:
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.settimeout(timeout)
+        code = client.connect_ex((target, port))
+        if code == 0:
+            print(open_color + "#######")
+            print(open_color + f"OPEN {port}")
+            print(open_color + "#######")
+        else:
+            print(closed_color + f"CLOSED {port}")
+        client.close()
+    except Exception as e:
+        print(f"[!] Erro ao escanear a porta {port}: {e}")
