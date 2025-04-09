@@ -13,11 +13,11 @@ A simple port scanner written in Python.
 
 1. Add ports to `ports.txt` (one per line).
 2. Run the script:
+3. Enter the target (IP/domain) and timeout.
 
-   ```bash
+   bash:
    python python_nmap.py
 
-3. Enter the target (IP/domain) and timeout.
    ```
 ## Example
 
