@@ -16,10 +16,9 @@ A simple port scanner written in Python.
 
    ```bash
    python python_nmap.py
-   ```
 
 3. Enter the target (IP/domain) and timeout.
-
+   ```
 ## Example
 
 ```
